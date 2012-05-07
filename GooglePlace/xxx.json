@@ -1,0 +1,77 @@
+5Dc_ubhoUTMxUYWH3eQUvGywA0es3IbaPh0A",
+         "types" : [ "restaurant", "lodging", "food", "establishment" ],
+         "vicinity" : "75号 Chaoyangmen Inner Street, Dongcheng, Beijing"
+      },
+      {
+         "geometry" : {
+            "location" : {
+               "lat" : 39.9319080,
+               "lng" : 116.4313680
+            }
+         },
+         "icon" : "http://maps.gstatic.com/mapfiles/place_api/icons/restaurant-71.png",
+         "id" : "aea11cbfed160ef9f56a42332c733eaa57efdf4c",
+         "name" : "Kuke Food",
+         "reference" : "CmRfAAAAKkgiKQ9TTshW7JfelsIrRZp_B6T87zMxEW5jczv_z-nO7tL_Wp341tpBpcpnxaCHgr0FqASoY0U8oJ1X2wQupGxL1MULrjEq4bzDc4yPyUCH3rVzMmYEtWw-jTWiWGlrEhC5NgWw1gkOpXYw1ce6kN-OGhQQ8xUCY3okFU_2i-rH797CCQiDoQ",
+         "types" : [ "restaurant", "food", "establishment" ],
+         "vicinity" : "22号 Dongsishitiao, Dongcheng, Beijing"
+      },
+      {
+         "geometry" : {
+            "location" : {
+               "lat" : 39.9331530,
+               "lng" : 116.4303240
+            }
+         },
+         "icon" : "http://maps.gstatic.com/mapfiles/place_api/icons/restaurant-71.png",
+         "id" : "9b7b8bf8cad0f38662d3e9e477f1070ae01796af",
+         "name" : "库和美",
+         "reference" : "CmRfAAAAtQEoL7yFbv1yAQ80K2VCqc9PEKoxvptNXtDdoh_NKNaCR6xAVg2hnuZ3uF1-zzbKCQQi-7auubQumC_nfGdVPqaQo9QlWY48B-7V9Oe2c1igJYwa6tN5BgWve-GdFj-rEhDbFCN6pVIavsFS5B1WSJMiGhTxmqBZG4LkLwXdZkOQOUecVboQww",
+         "types" : [ "restaurant", "food", "establishment" ],
+         "vicinity" : "22号 Dongsishitiao, Dongcheng, Beijing"
+      },
+      {
+         "geometry" : {
+            "location" : {
+               "lat" : 39.9326150,
+               "lng" : 116.4355720
+            }
+         },
+         "icon" : "http://maps.gstatic.com/mapfiles/place_api/icons/restaurant-71.png",
+         "id" : "305f587dff780fd5cc7c390dffbe08beac87bdcc",
+         "name" : "Kuaihuogu",
+         "reference" : "CmRfAAAAu6wq8l2ivMTdxaBlzJBPvl3GKlTx4-Y354wnxF1eJllks8WgYPphMbR9YeeU6hyQhE2gYAdRC2E3YG3O-_JJOhSZ6NBI4eF-Eh0ViaaqGy63rcG4yoFPnH2GbF9oaEeFEhAnSbn4ijptZHKb4RQ4lzyVGhRnC-7zPX0_PbpcNI90TkdyKMSP0Q",
+         "types" : [ "restaurant", "food", "establishment" ],
+         "vicinity" : "2号 Chaoyangmen North Street, Dongcheng, Beijing"
+      },
+      {
+         "geometry" : {
+            "location" : {
+               "lat" : 39.9327810,
+               "lng" : 116.4326120
+            }
+         },
+         "icon" : "http://maps.gstatic.com/mapfiles/place_api/icons/restaurant-71.png",
+         "id" : "75c3f68e716907f6b63b1e6a5c9c2124124f53de",
+         "name" : "Minghao",
+         "reference" : "CmRdAAAAAvdcf0hwC8Q5vhf5OpW7NHEmzU9SIbjezybOmqRa0z648nZjQVzkMgv1XWXIxNJh4Pp7c314pTi1lO-BQuBn7eOVa5fMIgMFH6UW_PN87lijAH8ppIlr8U6mzb41UEUyEhBbgSHxcUUcc7TYYbspUr4vGhTxPJ3EUJtKUbl_kCpTCwy_Vn-eVg",
+         "types" : [ "restaurant", "food", "establishment" ],
+         "vicinity" : "1号 Chaoyangmen North Street, Dongcheng, Beijing"
+      },
+      {
+         "geometry" : {
+            "location" : {
+               "lat" : 39.9335940,
+               "lng" : 116.4327290
+            }
+         },
+         "icon" : "http://maps.gstatic.com/mapfiles/place_api/icons/restaurant-71.png",
+         "id" : "3ba4760030c273ed415f79e25f006d6dfce82f58",
+         "name" : "兴登堡",
+         "reference" : "CmRgAAAAS-QseQM6nJ-2kL9vmRaAwQj6RB7Z9g7XXrxW_et2AOkKFBjXO9Ap4efD3hIKfeemb4I7IQGGekWigCBtFn-wkqtzXeHJ2XvdmgQHyp2Q3pbhEwkfQJGDBnItT7b5IXksEhDooqiUgpn73dGB4x5T6YX8GhTqE1OD_hCyWzBT98I4pN6eFReM4w",
+         "types" : [ "restaurant", "food", "establishment" ],
+         "vicinity" : "东四十条新保利大厦2楼, Dongcheng, Beijing"
+      }
+   ],
+   "status" : "OK"
+}

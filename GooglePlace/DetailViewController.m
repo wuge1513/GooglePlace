@@ -104,6 +104,7 @@
     self.mkMapView = _mkMapView;
     [_mkMapView release];
     self.mkMapView.delegate = self;
+    self.mkMapView.showsUserLocation = YES;
     [self.mapView addSubview:self.mkMapView];
     
 }
@@ -296,6 +297,7 @@
 }
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation {
+    
     if ([annotation isKindOfClass:[MKUserLocation class]]) {
         return nil;		
 	}
@@ -308,7 +310,7 @@
 	} else {
 		// Use class method to create DDAnnotationView (on iOS 3) or built-in draggble MKPinAnnotationView (on iOS 4).
 		draggablePinView = [DDAnnotationView annotationViewWithAnnotation:annotation reuseIdentifier:kPinAnnotationIdentifier mapView:self.mkMapView];
-        
+    
 		if ([draggablePinView isKindOfClass:[DDAnnotationView class]]) {
 			// draggablePinView is DDAnnotationView on iOS 3.
 		} else {

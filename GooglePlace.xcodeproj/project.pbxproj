@@ -22,6 +22,7 @@
 		A90F3F9B1553B50F009954C8 /* SBJsonBase.m in Sources */ = {isa = PBXBuildFile; fileRef = A90F3F941553B50F009954C8 /* SBJsonBase.m */; };
 		A90F3F9C1553B50F009954C8 /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = A90F3F961553B50F009954C8 /* SBJsonParser.m */; };
 		A90F3F9D1553B50F009954C8 /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = A90F3F981553B50F009954C8 /* SBJsonWriter.m */; };
+		A990F0321558EED200F6086E /* LLAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = A990F0311558EED200F6086E /* LLAnnotationView.m */; };
 		A9A1190D1522CFD200C2B441 /* xxx.json in Resources */ = {isa = PBXBuildFile; fileRef = A9A1190C1522CFD200C2B441 /* xxx.json */; };
 		A9AA764B1557A9A1004B1009 /* DDAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = A9AA76421557A9A1004B1009 /* DDAnnotation.m */; };
 		A9AA764C1557A9A1004B1009 /* DDAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = A9AA76441557A9A1004B1009 /* DDAnnotationView.m */; };
@@ -83,6 +84,8 @@
 		A90F3F961553B50F009954C8 /* SBJsonParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SBJsonParser.m; path = SBJson/SBJsonParser.m; sourceTree = "<group>"; };
 		A90F3F971553B50F009954C8 /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SBJsonWriter.h; path = SBJson/SBJsonWriter.h; sourceTree = "<group>"; };
 		A90F3F981553B50F009954C8 /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SBJsonWriter.m; path = SBJson/SBJsonWriter.m; sourceTree = "<group>"; };
+		A990F0301558EED200F6086E /* LLAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; path = LLAnnotationView.h; sourceTree = "<group>"; };
+		A990F0311558EED200F6086E /* LLAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLAnnotationView.m; sourceTree = "<group>"; };
 		A9A1190C1522CFD200C2B441 /* xxx.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = xxx.json; sourceTree = "<group>"; };
 		A9AA76411557A9A1004B1009 /* DDAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDAnnotation.h; sourceTree = "<group>"; };
 		A9AA76421557A9A1004B1009 /* DDAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDAnnotation.m; sourceTree = "<group>"; };
@@ -230,6 +233,8 @@
 				A9AA76421557A9A1004B1009 /* DDAnnotation.m */,
 				A9AA76431557A9A1004B1009 /* DDAnnotationView.h */,
 				A9AA76441557A9A1004B1009 /* DDAnnotationView.m */,
+				A990F0301558EED200F6086E /* LLAnnotationView.h */,
+				A990F0311558EED200F6086E /* LLAnnotationView.m */,
 				A9AA76451557A9A1004B1009 /* Pin.png */,
 				A9AA76461557A9A1004B1009 /* PinDown1.png */,
 				A9AA76471557A9A1004B1009 /* PinDown2.png */,
@@ -392,6 +397,7 @@
 				A90F3F9D1553B50F009954C8 /* SBJsonWriter.m in Sources */,
 				A9AA764B1557A9A1004B1009 /* DDAnnotation.m in Sources */,
 				A9AA764C1557A9A1004B1009 /* DDAnnotationView.m in Sources */,
+				A990F0321558EED200F6086E /* LLAnnotationView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

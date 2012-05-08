@@ -9,7 +9,7 @@
 #import "DetailViewController.h"
 #import "DDAnnotation.h"
 #import "DDAnnotationView.h"
-
+#import "LLAnnotationView.h"
 
 #import "ASIFormDataRequest.h"
 #import "ASIHTTPRequest.h"
@@ -343,9 +343,7 @@
         
         if(annotation.title != @"Me") {    
             UIButton* rightButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-            [rightButton addTarget:self
-                            action:@selector(showItemDetailView)
-                  forControlEvents:UIControlEventTouchUpInside];
+            [rightButton addTarget:self action:@selector(showItemDetailView) forControlEvents:UIControlEventTouchUpInside];
             draggablePinView.rightCalloutAccessoryView = rightButton;
             //rightButton.tag = [self setID:annotation.title Type:1];
         }
@@ -354,11 +352,15 @@
 	}
     
     //其他标记位置
-    NSLog(@"creatview");
-    MKPinAnnotationView *newAnnotation = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"annotation1"];
-    newAnnotation.pinColor = MKPinAnnotationColorGreen;
-    newAnnotation.animatesDrop = YES; 
+   MKPinAnnotationView *newAnnotation = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"ass"];
+    newAnnotation.animatesDrop = YES;
     newAnnotation.canShowCallout=YES;
+    
+    UIButton* rightButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+    [rightButton addTarget:self action:@selector(showItemDetailView) forControlEvents:UIControlEventTouchUpInside];
+    newAnnotation.rightCalloutAccessoryView = rightButton;
+    //rightButton.tag = [self setID:annotation.title Type:1];
+    
     return newAnnotation;
 
 }

@@ -34,4 +34,7 @@
 - (void)actionBtnLoadMoreItem;
 - (void)actionShowItemOnMap;
 - (void)setCurrentLocation:(CLLocation *)location;
+
+
+- (void)showItemDetailView;
 @end

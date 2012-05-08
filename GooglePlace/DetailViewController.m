@@ -100,12 +100,12 @@
     self.mapView.hidden = YES;
     [self.view addSubview:self.mapView];
     
-    MKMapView *_mkMapView = [[MKMapView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 416.0)];
-    self.mkMapView = _mkMapView;
-    [_mkMapView release];
-    self.mkMapView.delegate = self;
-    self.mkMapView.showsUserLocation = YES;
-    [self.mapView addSubview:self.mkMapView];
+//    MKMapView *_mkMapView = [[MKMapView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 416.0)];
+//    self.mkMapView = _mkMapView;
+//    [_mkMapView release];
+//    self.mkMapView.delegate = self;
+//    self.mkMapView.showsUserLocation = YES;
+//    [self.mapView addSubview:self.mkMapView];
     
 }
 
@@ -179,6 +179,14 @@
 //地图标注
 - (void)showMap
 {
+    MKMapView *_mkMapView = [[MKMapView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 416.0)];
+    self.mkMapView = _mkMapView;
+    [_mkMapView release];
+    self.mkMapView.delegate = self;
+    self.mkMapView.showsUserLocation = YES;
+    self.mkMapView.autoresizesSubviews = YES;
+    [self.mapView addSubview:self.mkMapView];
+    
     [self setCurrentLocation:self.curLocation];
     
     for (NSInteger i = 0; i < self.curItemCount; i++) {
@@ -298,6 +306,11 @@
 }
 
 
+- (void)showItemDetailView
+{
+    NSLog(@"detail...");
+}
+
 #pragma mark -
 #pragma mark MKMapViewDelegate
 
@@ -315,37 +328,47 @@
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation {
     
+    //当前位置自定义，可以更改
     if ([annotation isKindOfClass:[MKUserLocation class]]) {
-        return nil;		
+        //return nil;
+        static NSString * const kPinAnnotationIdentifier = @"PinIdentifier";
+        MKAnnotationView *draggablePinView = [self.mkMapView dequeueReusableAnnotationViewWithIdentifier:kPinAnnotationIdentifier];
+        
+        // Use class method to create DDAnnotationView (on iOS 3) or built-in draggble MKPinAnnotationView (on iOS 4).
+        draggablePinView = [DDAnnotationView annotationViewWithAnnotation:annotation reuseIdentifier:kPinAnnotationIdentifier mapView:self.mkMapView];
+        draggablePinView.canShowCallout = YES;
+        draggablePinView.annotation = annotation;
+        draggablePinView.selected = YES;
+        
+        
+        if(annotation.title != @"Me") {    
+            UIButton* rightButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+            [rightButton addTarget:self
+                            action:@selector(showItemDetailView)
+                  forControlEvents:UIControlEventTouchUpInside];
+            draggablePinView.rightCalloutAccessoryView = rightButton;
+            //rightButton.tag = [self setID:annotation.title Type:1];
+        }
+        
+        return draggablePinView;
 	}
-	
-	static NSString * const kPinAnnotationIdentifier = @"PinIdentifier";
-	MKAnnotationView *draggablePinView = [self.mkMapView dequeueReusableAnnotationViewWithIdentifier:kPinAnnotationIdentifier];
-	
     
-    if (annotation != self.mkMapView.userLocation) {
-        if (draggablePinView) {
-            draggablePinView.annotation = annotation;
-        } else {
-            // Use class method to create DDAnnotationView (on iOS 3) or built-in draggble MKPinAnnotationView (on iOS 4).
-            draggablePinView = [DDAnnotationView annotationViewWithAnnotation:annotation reuseIdentifier:kPinAnnotationIdentifier mapView:self.mkMapView];
-            
-            if ([draggablePinView isKindOfClass:[DDAnnotationView class]]) {
-                // draggablePinView is DDAnnotationView on iOS 3.
-            } else {
-                // draggablePinView instance will be built-in draggable MKPinAnnotationView when running on iOS 4.
-            }
-        }	
-    }
-	
-	return draggablePinView;
+    //其他标记位置
+    NSLog(@"creatview");
+    MKPinAnnotationView *newAnnotation = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"annotation1"];
+    newAnnotation.pinColor = MKPinAnnotationColorGreen;
+    newAnnotation.animatesDrop = YES; 
+    newAnnotation.canShowCallout=YES;
+    return newAnnotation;
+
 }
 
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control{
-
+    NSLog(@"123");
 }
 
 - (void)mapView:(MKMapView *)mapView didAddAnnotationViews:(NSArray *)views{
+    NSLog(@"456");
 }
 
 							

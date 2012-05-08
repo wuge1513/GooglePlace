@@ -14,7 +14,8 @@
 
 @property (strong, nonatomic) DetailViewController *detailViewController;
 
-@property (strong, nonatomic) CLLocationManager *lm;  
+@property (strong, nonatomic) CLLocationManager *lm;
+@property (strong, nonatomic) CLLocation *curLocation;
 @property (nonatomic,copy) NSString *strLatitude;
 @property (nonatomic,copy) NSString *strLongitude;
 @property (nonatomic,copy) NSString *strAccuracy;

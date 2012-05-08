@@ -15,7 +15,7 @@
 @implementation MasterViewController
 
 @synthesize detailViewController = _detailViewController;
-@synthesize lm;
+@synthesize lm, curLocation;
 @synthesize strLongitude, strAccuracy, strLatitude;
 @synthesize tfType, tfRadius, curAddress;
 @synthesize arrItemText, arrItemImages, receivedData, arrGeometry;
@@ -217,6 +217,7 @@
     dc.lat = [self.strLatitude floatValue];
     dc.lng = [self.strLongitude floatValue];
     dc.arrGeometry = self.arrGeometry;
+    dc.curLocation = self.curLocation;
     [self.navigationController pushViewController:dc animated:YES];
 }
 
@@ -226,6 +227,9 @@
 - (void) locationManager: (CLLocationManager *) manager  
      didUpdateToLocation: (CLLocation *) newLocation  
             fromLocation: (CLLocation *) oldLocation{  
+    
+    self.curLocation = newLocation;
+    
     NSString *lat = [NSString stringWithFormat:@"%g",  
                      newLocation.coordinate.latitude];  
     //纬度

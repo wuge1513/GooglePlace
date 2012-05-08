@@ -30,7 +30,7 @@
 @synthesize btnLoadMoreItem;
 @synthesize tbPlaceList;
 @synthesize muArray, arrImage;
-@synthesize mapView, isMapShowing, mkMapView, lat, lng, arrGeometry;
+@synthesize mapView, isMapShowing, mkMapView, lat, lng, arrGeometry, curLocation;
 
 - (void)dealloc
 {
@@ -167,6 +167,42 @@
     [self.tbPlaceList scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:self.curItemCount - 1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
 }
 
+- (void)setCurrentLocation:(CLLocation *)location
+{
+    MKCoordinateRegion region = {{0.0f, 0.0f}, {0.0f, 0.0f}};
+    region.center = location.coordinate;
+    region.span.longitudeDelta = 0.1f;
+    region.span.latitudeDelta = 0.1f;
+    [self.mkMapView setRegion:region animated:YES];
+}
+
+//地图标注
+- (void)showMap
+{
+    [self setCurrentLocation:self.curLocation];
+    
+    for (NSInteger i = 0; i < self.curItemCount; i++) {
+        NSDictionary *dic = [self.muArray objectAtIndex:i];
+        NSString *name = [dic objectForKey:@"name"];
+        NSString *address = [dic objectForKey:@"vicinity"];
+        
+        //坐标
+        NSDictionary *dicGeo = [self.arrGeometry objectAtIndex:i];
+        NSDictionary *dicLocation = [dicGeo objectForKey:@"location"];
+        NSString *lat1 = [dicLocation objectForKey:@"lat"];
+        NSString *lng1 = [dicLocation objectForKey:@"lng"];
+        CLLocationCoordinate2D theCoordinate;
+        theCoordinate.latitude = [lat1 floatValue];
+        theCoordinate.longitude = [lng1 floatValue];
+        
+        
+        
+        DDAnnotation *annotation = [[[DDAnnotation alloc] initWithCoordinate:theCoordinate addressDictionary:nil] autorelease];
+        annotation.title = name;//@"Drag to Move Pin";
+        annotation.subtitle = address;//[NSString	stringWithFormat:@"%f %f", annotation.coordinate.latitude, annotation.coordinate.longitude];
+        [self.mkMapView addAnnotation:annotation];
+    }      
+}
 
 - (void)actionShowItemOnMap
 {
@@ -178,30 +214,10 @@
         self.mapView.hidden = NO;
         [UIView commitAnimations];
         
-        //地图标注
-        
-        for (NSInteger i = 0; i < self.curItemCount; i++) {
-            NSDictionary *dic = [self.muArray objectAtIndex:i];
-            NSString *name = [dic objectForKey:@"name"];
-            NSString *address = [dic objectForKey:@"vicinity"];
-            
-            //坐标
-            NSDictionary *dicGeo = [self.arrGeometry objectAtIndex:i];
-            NSDictionary *dicLocation = [dicGeo objectForKey:@"location"];
-            NSString *lat1 = [dicLocation objectForKey:@"lat"];
-            NSString *lng1 = [dicLocation objectForKey:@"lng"];
-            CLLocationCoordinate2D theCoordinate;
-            theCoordinate.latitude = [lat1 floatValue];
-            theCoordinate.longitude = [lng1 floatValue];
-            
-            DDAnnotation *annotation = [[[DDAnnotation alloc] initWithCoordinate:theCoordinate addressDictionary:nil] autorelease];
-            annotation.title = name;//@"Drag to Move Pin";
-            annotation.subtitle = address;//[NSString	stringWithFormat:@"%f %f", annotation.coordinate.latitude, annotation.coordinate.longitude];
-            [self.mkMapView addAnnotation:annotation];
-        }
-
-        
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"列表" style:UIBarButtonItemStyleBordered target:self action:@selector(actionShowItemOnMap)];
+    
+        [self showMap];
+        
     }else{
         [UIView beginAnimations:@"Animation" context:nil];
         [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
@@ -215,6 +231,7 @@
     
     self.isMapShowing = !self.isMapShowing;
 }
+
 
 
 // Customize the number of sections in the table view.
@@ -305,18 +322,21 @@
 	static NSString * const kPinAnnotationIdentifier = @"PinIdentifier";
 	MKAnnotationView *draggablePinView = [self.mkMapView dequeueReusableAnnotationViewWithIdentifier:kPinAnnotationIdentifier];
 	
-	if (draggablePinView) {
-		draggablePinView.annotation = annotation;
-	} else {
-		// Use class method to create DDAnnotationView (on iOS 3) or built-in draggble MKPinAnnotationView (on iOS 4).
-		draggablePinView = [DDAnnotationView annotationViewWithAnnotation:annotation reuseIdentifier:kPinAnnotationIdentifier mapView:self.mkMapView];
     
-		if ([draggablePinView isKindOfClass:[DDAnnotationView class]]) {
-			// draggablePinView is DDAnnotationView on iOS 3.
-		} else {
-			// draggablePinView instance will be built-in draggable MKPinAnnotationView when running on iOS 4.
-		}
-	}		
+    if (annotation != self.mkMapView.userLocation) {
+        if (draggablePinView) {
+            draggablePinView.annotation = annotation;
+        } else {
+            // Use class method to create DDAnnotationView (on iOS 3) or built-in draggble MKPinAnnotationView (on iOS 4).
+            draggablePinView = [DDAnnotationView annotationViewWithAnnotation:annotation reuseIdentifier:kPinAnnotationIdentifier mapView:self.mkMapView];
+            
+            if ([draggablePinView isKindOfClass:[DDAnnotationView class]]) {
+                // draggablePinView is DDAnnotationView on iOS 3.
+            } else {
+                // draggablePinView instance will be built-in draggable MKPinAnnotationView when running on iOS 4.
+            }
+        }	
+    }
 	
 	return draggablePinView;
 }

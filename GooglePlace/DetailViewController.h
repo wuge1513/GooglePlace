@@ -23,6 +23,7 @@
 @property (strong, nonatomic) UIView *mapView;
 @property (assign, nonatomic) BOOL isMapShowing;
 @property (strong, nonatomic) MKMapView *mkMapView;
+@property (strong, nonatomic) CLLocation *curLocation;
 
 
 @property (assign, nonatomic) double lat;
@@ -32,5 +33,5 @@
 
 - (void)actionBtnLoadMoreItem;
 - (void)actionShowItemOnMap;
-
+- (void)setCurrentLocation:(CLLocation *)location;
 @end

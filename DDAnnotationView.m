@@ -61,7 +61,6 @@
 - (void)dealloc {
 	
 	[pinShadow_ release];
-	
 	[pinTimer_ invalidate];
 	[pinTimer_ release];
 	

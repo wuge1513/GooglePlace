@@ -37,6 +37,9 @@
 	
 	if ((self = [super initWithCoordinate:coordinate addressDictionary:addressDictionary])) {
 		self.coordinate = coordinate;
+//        UIView *v = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 30.0, 20.0)];
+//        v.backgroundColor = [UIColor orangeColor];
+
 	}
 	return self;
 }

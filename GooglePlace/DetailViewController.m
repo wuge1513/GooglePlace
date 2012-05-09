@@ -9,10 +9,11 @@
 #import "DetailViewController.h"
 #import "DDAnnotation.h"
 #import "DDAnnotationView.h"
-
 #import "LLFileManage.h"
 #import "SBJson.h"
 #import "NSString+SBJSON.h"
+
+#import "MasterViewController.h"
 
 #define kCURRENT_ITEM_COUNT      5
 
@@ -22,7 +23,9 @@
 @synthesize btnLoadMoreItem;
 @synthesize tbPlaceList;
 @synthesize muArray, arrImage;
-@synthesize mapView, isMapShowing, mkMapView, lat, lng, arrGeometry;
+@synthesize mapView, mkMapView, lat, lng, arrGeometry, curLocation;
+@synthesize tbarMap;
+@synthesize isMapShowing, isShowSubPageView;
 
 - (void)dealloc
 {
@@ -62,6 +65,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+    self.view.backgroundColor = [UIColor scrollViewTexturedBackgroundColor];
     
     self.curItemCount = kCURRENT_ITEM_COUNT;
 	self.totalItemCount = [self.muArray count];
@@ -84,20 +88,43 @@
     [self.btnLoadMoreItem setTitle:@"加载更多..." forState:UIControlStateNormal];
     [self.btnLoadMoreItem addTarget:self action:@selector(actionBtnLoadMoreItem) forControlEvents:UIControlEventTouchUpInside];
     
-
+    //custom background view
     UIView *_mapView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 416.0)];
     self.mapView = _mapView;
     [_mapView release];
-    self.mapView.backgroundColor = [UIColor orangeColor];
+    self.mapView.backgroundColor = [UIColor scrollViewTexturedBackgroundColor];
     self.mapView.hidden = YES;
     [self.view addSubview:self.mapView];
     
-    MKMapView *_mkMapView = [[MKMapView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 416.0)];
-    self.mkMapView = _mkMapView;
-    [_mkMapView release];
-    self.mkMapView.delegate = self;
-    self.mkMapView.showsUserLocation = YES;
-    [self.mapView addSubview:self.mkMapView];
+    for (NSInteger i = 0; i < 4; i++) {
+        UIButton *btnForMap = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        btnForMap.frame = CGRectMake(40.0 + i * 60.0 , 330.0, 60.0, 30.0);
+        [self.mapView addSubview:btnForMap];
+    }
+    
+    //bottom tool bar
+    self.tbarMap = [[UIToolbar alloc] initWithFrame:CGRectMake(0.0, 376.0, 320.0, 40.0)];
+    self.tbarMap.barStyle = UIBarStyleDefault;
+    [self.view addSubview:self.tbarMap];
+    
+    //space
+    UIBarButtonItem *barItem0 = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace 
+                                                                                  target:nil 
+                                                                                  action:nil];
+    
+    UIBarButtonItem *barItemLocation = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Location.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(actionUpdateLocation)];
+    UIBarButtonItem *barItemSubPage = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPageCurl target:self action:@selector(showSubPageView)];
+    [self.tbarMap sizeToFit];
+    [self.tbarMap setItems:[NSArray arrayWithObjects:barItemLocation, barItem0, barItem0, barItem0, barItemSubPage, nil]];
+    
+    //convert map type
+    UISegmentedControl *segCtl = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:@"标准", @"卫星", @"混合", nil]];
+    segCtl.segmentedControlStyle = UISegmentedControlStyleBar;
+    segCtl.frame = CGRectMake(0.0, 0.0, 120.0, 30.0);
+    segCtl.center = CGPointMake(160.0, 23.0);
+    segCtl.selectedSegmentIndex = 0;
+    [segCtl addTarget:self action:@selector(actionSegmentCtl:) forControlEvents:UIControlEventValueChanged];
+    [self.tbarMap addSubview:segCtl];
     
 }
 
@@ -134,6 +161,8 @@
     return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
 }
 
+#pragma mark -
+#pragma mark List action methods
 
 - (void)actionBtnLoadMoreItem
 {
@@ -159,6 +188,105 @@
     [self.tbPlaceList scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:self.curItemCount - 1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
 }
 
+- (void)showItemDetailView
+{
+    NSLog(@"detail...");
+}
+
+
+#pragma mark -
+#pragma mark Map action methods
+- (void)showSubPageView
+{
+    self.isShowSubPageView = !self.isShowSubPageView;
+    
+    if (self.isShowSubPageView) {
+        [UIView beginAnimations:@"animation" context:nil];
+        [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+        [UIView setAnimationDuration:0.5];
+        self.mkMapView.frame = CGRectMake(0.0, -60.0, 320.0, 376.0);
+        [UIView commitAnimations];
+        
+    }else{
+        [UIView beginAnimations:@"animation" context:nil];
+        [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+        [UIView setAnimationDuration:0.5];
+        self.mkMapView.frame = CGRectMake(0.0, 0.0, 320.0, 376.0);
+        [UIView commitAnimations];
+    }
+    
+}
+
+- (void)actionUpdateLocation
+{
+
+}
+
+- (void)actionSegmentCtl:(id)sender
+{
+    UISegmentedControl *seg = (UISegmentedControl *)sender;
+    NSLog(@"===%d",seg.selectedSegmentIndex);
+    
+    switch (seg.selectedSegmentIndex) {
+        case 0:
+            self.mkMapView.mapType = MKMapTypeStandard;
+            break;
+        case 1:
+            self.mkMapView.mapType = MKMapTypeSatellite;
+            break;
+        case 2:
+            self.mkMapView.mapType = MKMapTypeHybrid;
+            break;
+        default:
+            break;
+    }
+}
+
+
+- (void)setCurrentLocation:(CLLocation *)location
+{
+    MKCoordinateRegion region = {{0.0f, 0.0f}, {0.0f, 0.0f}};
+    region.center = location.coordinate;
+    region.span.longitudeDelta = 0.1f;
+    region.span.latitudeDelta = 0.1f;
+    [self.mkMapView setRegion:region animated:YES];
+}
+
+//地图标注
+- (void)showMap
+{
+    MKMapView *_mkMapView = [[MKMapView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 376.0)];
+    self.mkMapView = _mkMapView;
+    [_mkMapView release];
+    self.mkMapView.delegate = self;
+    self.mkMapView.showsUserLocation = YES;
+    self.mkMapView.autoresizesSubviews = YES;
+    [self.mapView addSubview:self.mkMapView];
+    
+    [self setCurrentLocation:self.curLocation];
+    
+    for (NSInteger i = 0; i < self.curItemCount; i++) {
+        NSDictionary *dic = [self.muArray objectAtIndex:i];
+        NSString *name = [dic objectForKey:@"name"];
+        NSString *address = [dic objectForKey:@"vicinity"];
+        
+        //坐标
+        NSDictionary *dicGeo = [self.arrGeometry objectAtIndex:i];
+        NSDictionary *dicLocation = [dicGeo objectForKey:@"location"];
+        NSString *lat1 = [dicLocation objectForKey:@"lat"];
+        NSString *lng1 = [dicLocation objectForKey:@"lng"];
+        CLLocationCoordinate2D theCoordinate;
+        theCoordinate.latitude = [lat1 floatValue];
+        theCoordinate.longitude = [lng1 floatValue];
+        
+        
+        
+        DDAnnotation *annotation = [[[DDAnnotation alloc] initWithCoordinate:theCoordinate addressDictionary:nil] autorelease];
+        annotation.title = name;//@"Drag to Move Pin";
+        annotation.subtitle = address;//[NSString	stringWithFormat:@"%f %f", annotation.coordinate.latitude, annotation.coordinate.longitude];
+        [self.mkMapView addAnnotation:annotation];
+    }      
+}
 
 - (void)actionShowItemOnMap
 {
@@ -170,30 +298,10 @@
         self.mapView.hidden = NO;
         [UIView commitAnimations];
         
-        //地图标注
-        
-        for (NSInteger i = 0; i < self.curItemCount; i++) {
-            NSDictionary *dic = [self.muArray objectAtIndex:i];
-            NSString *name = [dic objectForKey:@"name"];
-            NSString *address = [dic objectForKey:@"vicinity"];
-            
-            //坐标
-            NSDictionary *dicGeo = [self.arrGeometry objectAtIndex:i];
-            NSDictionary *dicLocation = [dicGeo objectForKey:@"location"];
-            NSString *lat1 = [dicLocation objectForKey:@"lat"];
-            NSString *lng1 = [dicLocation objectForKey:@"lng"];
-            CLLocationCoordinate2D theCoordinate;
-            theCoordinate.latitude = [lat1 floatValue];
-            theCoordinate.longitude = [lng1 floatValue];
-            
-            DDAnnotation *annotation = [[[DDAnnotation alloc] initWithCoordinate:theCoordinate addressDictionary:nil] autorelease];
-            annotation.title = name;//@"Drag to Move Pin";
-            annotation.subtitle = address;//[NSString	stringWithFormat:@"%f %f", annotation.coordinate.latitude, annotation.coordinate.longitude];
-            [self.mkMapView addAnnotation:annotation];
-        }
-
-        
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"列表" style:UIBarButtonItemStyleBordered target:self action:@selector(actionShowItemOnMap)];
+    
+        [self showMap];
+        
     }else{
         [UIView beginAnimations:@"Animation" context:nil];
         [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
@@ -208,6 +316,9 @@
     self.isMapShowing = !self.isMapShowing;
 }
 
+
+#pragma mark -
+#pragma mark UITableView Methods
 
 // Customize the number of sections in the table view.
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -290,34 +401,42 @@
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation {
     
+    //当前位置自定义，可以更改
     if ([annotation isKindOfClass:[MKUserLocation class]]) {
-        return nil;		
+        //return nil;
+        static NSString * const kPinAnnotationIdentifier = @"PinIdentifier";
+        MKAnnotationView *draggablePinView = [self.mkMapView dequeueReusableAnnotationViewWithIdentifier:kPinAnnotationIdentifier];
+        
+        // Use class method to create DDAnnotationView (on iOS 3) or built-in draggble MKPinAnnotationView (on iOS 4).
+        draggablePinView = [DDAnnotationView annotationViewWithAnnotation:annotation reuseIdentifier:kPinAnnotationIdentifier mapView:self.mkMapView];
+        draggablePinView.canShowCallout = YES;
+        draggablePinView.annotation = annotation;
+        draggablePinView.selected = YES;
+        
+        return draggablePinView;
 	}
-	
-	static NSString * const kPinAnnotationIdentifier = @"PinIdentifier";
-	MKAnnotationView *draggablePinView = [self.mkMapView dequeueReusableAnnotationViewWithIdentifier:kPinAnnotationIdentifier];
-	
-	if (draggablePinView) {
-		draggablePinView.annotation = annotation;
-	} else {
-		// Use class method to create DDAnnotationView (on iOS 3) or built-in draggble MKPinAnnotationView (on iOS 4).
-		draggablePinView = [DDAnnotationView annotationViewWithAnnotation:annotation reuseIdentifier:kPinAnnotationIdentifier mapView:self.mkMapView];
     
-		if ([draggablePinView isKindOfClass:[DDAnnotationView class]]) {
-			// draggablePinView is DDAnnotationView on iOS 3.
-		} else {
-			// draggablePinView instance will be built-in draggable MKPinAnnotationView when running on iOS 4.
-		}
-	}		
-	
-	return draggablePinView;
+    //其他标记位置
+   MKPinAnnotationView *newAnnotation = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"ass"];
+    newAnnotation.animatesDrop = YES;
+    newAnnotation.canShowCallout=YES;
+    newAnnotation.pinColor = MKPinAnnotationColorGreen;
+    
+    UIButton* rightButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+    [rightButton addTarget:self action:@selector(showItemDetailView) forControlEvents:UIControlEventTouchUpInside];
+    newAnnotation.rightCalloutAccessoryView = rightButton;
+    //rightButton.tag = [self setID:annotation.title Type:1];
+    
+    return newAnnotation;
+
 }
 
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control{
-
+    NSLog(@"123");
 }
 
 - (void)mapView:(MKMapView *)mapView didAddAnnotationViews:(NSArray *)views{
+    NSLog(@"456");
 }
 
 							

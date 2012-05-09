@@ -13,7 +13,7 @@
 #import "NSString+SBJSON.h"
 
 #define USE_THREAD
-#define kLOAD_IMAGES_NUM_FIRST     20
+#define kLOAD_IMAGES_NUM_FIRST     5
 
 @implementation MasterViewController
 

@@ -84,7 +84,7 @@
     
     //add load more btn in last cell
     self.btnLoadMoreItem = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    self.btnLoadMoreItem.frame = CGRectMake(10.0, 20.0, 300.0, 40.0);
+    self.btnLoadMoreItem.frame = CGRectMake(10.0, 0.0, 300.0, 40.0);
     [self.btnLoadMoreItem setTitle:@"加载更多..." forState:UIControlStateNormal];
     [self.btnLoadMoreItem addTarget:self action:@selector(actionBtnLoadMoreItem) forControlEvents:UIControlEventTouchUpInside];
     
@@ -103,9 +103,9 @@
     }
     
     //bottom tool bar
-    self.tbarMap = [[UIToolbar alloc] initWithFrame:CGRectMake(0.0, 376.0, 320.0, 40.0)];
+    self.tbarMap = [[UIToolbar alloc] initWithFrame:CGRectMake(0.0, 372.0, 320.0, 44.0)];
     self.tbarMap.barStyle = UIBarStyleDefault;
-    [self.view addSubview:self.tbarMap];
+    [self.mapView addSubview:self.tbarMap];
     
     //space
     UIBarButtonItem *barItem0 = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace 
@@ -204,14 +204,14 @@
         [UIView beginAnimations:@"animation" context:nil];
         [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
         [UIView setAnimationDuration:0.5];
-        self.mkMapView.frame = CGRectMake(0.0, -60.0, 320.0, 376.0);
+        self.mkMapView.frame = CGRectMake(0.0, -60.0, 320.0, 372.0);
         [UIView commitAnimations];
         
     }else{
         [UIView beginAnimations:@"animation" context:nil];
         [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
         [UIView setAnimationDuration:0.5];
-        self.mkMapView.frame = CGRectMake(0.0, 0.0, 320.0, 376.0);
+        self.mkMapView.frame = CGRectMake(0.0, 0.0, 320.0, 372.0);
         [UIView commitAnimations];
     }
     
@@ -255,7 +255,7 @@
 //地图标注
 - (void)showMap
 {
-    MKMapView *_mkMapView = [[MKMapView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 376.0)];
+    MKMapView *_mkMapView = [[MKMapView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 372.0)];
     self.mkMapView = _mkMapView;
     [_mkMapView release];
     self.mkMapView.delegate = self;
@@ -337,7 +337,10 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 80;
+    if (indexPath.row == self.curItemCount) {
+        return 40.0;
+    }
+    return 85;
 }
 
 // Customize the appearance of table view cells.
@@ -421,6 +424,11 @@
     newAnnotation.animatesDrop = YES;
     newAnnotation.canShowCallout=YES;
     newAnnotation.pinColor = MKPinAnnotationColorGreen;
+    
+    CGRect rectImg = CGRectMake(10.0, 10.0, 30.0, 30.0);
+    UIImageView *headImgView = [[UIImageView alloc] initWithFrame:rectImg];
+    headImgView.image = [UIImage imageNamed:@"0.jpg"];
+    newAnnotation.leftCalloutAccessoryView = headImgView;
     
     UIButton* rightButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
     [rightButton addTarget:self action:@selector(showItemDetailView) forControlEvents:UIControlEventTouchUpInside];

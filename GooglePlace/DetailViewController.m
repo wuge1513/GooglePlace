@@ -32,8 +32,9 @@
 @synthesize btnLoadMoreItem;
 @synthesize tbPlaceList;
 @synthesize muArray, arrImage;
-@synthesize mapView, isMapShowing, mkMapView, lat, lng, arrGeometry, curLocation;
+@synthesize mapView, mkMapView, lat, lng, arrGeometry, curLocation;
 @synthesize tbarMap;
+@synthesize isMapShowing, isShowSubPageView;
 
 - (void)dealloc
 {
@@ -73,6 +74,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+    self.view.backgroundColor = [UIColor scrollViewTexturedBackgroundColor];
     
     self.curItemCount = kCURRENT_ITEM_COUNT;
 	self.totalItemCount = [self.muArray count];
@@ -95,18 +97,24 @@
     [self.btnLoadMoreItem setTitle:@"加载更多..." forState:UIControlStateNormal];
     [self.btnLoadMoreItem addTarget:self action:@selector(actionBtnLoadMoreItem) forControlEvents:UIControlEventTouchUpInside];
     
-
+    //custom background view
     UIView *_mapView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 416.0)];
     self.mapView = _mapView;
     [_mapView release];
-    self.mapView.backgroundColor = [UIColor orangeColor];
+    self.mapView.backgroundColor = [UIColor scrollViewTexturedBackgroundColor];
     self.mapView.hidden = YES;
     [self.view addSubview:self.mapView];
+    
+    for (NSInteger i = 0; i < 4; i++) {
+        UIButton *btnForMap = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        btnForMap.frame = CGRectMake(40.0 + i * 60.0 , 330.0, 60.0, 30.0);
+        [self.mapView addSubview:btnForMap];
+    }
     
     //bottom tool bar
     self.tbarMap = [[UIToolbar alloc] initWithFrame:CGRectMake(0.0, 376.0, 320.0, 40.0)];
     self.tbarMap.barStyle = UIBarStyleDefault;
-    [self.mapView addSubview:self.tbarMap];
+    [self.view addSubview:self.tbarMap];
     
     //space
     UIBarButtonItem *barItem0 = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace 
@@ -199,7 +207,23 @@
 #pragma mark Map action methods
 - (void)showSubPageView
 {
-
+    self.isShowSubPageView = !self.isShowSubPageView;
+    
+    if (self.isShowSubPageView) {
+        [UIView beginAnimations:@"animation" context:nil];
+        [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+        [UIView setAnimationDuration:0.5];
+        self.mkMapView.frame = CGRectMake(0.0, -60.0, 320.0, 376.0);
+        [UIView commitAnimations];
+        
+    }else{
+        [UIView beginAnimations:@"animation" context:nil];
+        [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+        [UIView setAnimationDuration:0.5];
+        self.mkMapView.frame = CGRectMake(0.0, 0.0, 320.0, 376.0);
+        [UIView commitAnimations];
+    }
+    
 }
 
 - (void)actionUpdateLocation

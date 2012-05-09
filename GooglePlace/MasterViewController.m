@@ -12,6 +12,9 @@
 #import "SBJson.h"
 #import "NSString+SBJSON.h"
 
+#define USE_THREAD
+#define kLOAD_IMAGES_NUM_FIRST     20
+
 @implementation MasterViewController
 
 @synthesize detailViewController = _detailViewController;
@@ -30,9 +33,13 @@
         self.arrItemText = _arrItemText;
         [_arrItemText release];
         
-        NSMutableArray *_arrItemImages = [[NSMutableArray alloc] init];
+        NSMutableArray *_arrItemImages = [[NSMutableArray alloc] initWithCapacity:kLOAD_IMAGES_NUM_FIRST];
         self.arrItemImages = _arrItemImages;
         [_arrItemImages release];
+        
+        for (NSInteger i = 0; i < kLOAD_IMAGES_NUM_FIRST; i++) {
+            [self.arrItemImages addObject:[NSNull null]];
+        }
         
         NSMutableData *_data = [[NSMutableData alloc] init];
         self.receivedData = _data;
@@ -140,6 +147,8 @@
  sensor（必填）- 表示位置请求是否来自于使用位置传感器（如 GPS）的设备，从而确定此请求中发送的位置。该值必须为 true 或 false。
  key（必填）– 您的应用程序的 API 密钥。此密钥用于标识您的应用程序，以便管理配额，从而让您的应用程序添加的“地方”可立即在该应用程序中使用。要创建 API 项目并获取密钥，请访问 API 控制台。
  */
+
+
 - (IBAction)btnAction:(id)sender
 {
     
@@ -162,6 +171,23 @@
 	[req setHTTPMethod:@"GET"];
 	[NSURLConnection connectionWithRequest:req delegate:self];
     
+}
+
+- (void)loadImages:(NSNumber *)index
+{
+    NSDictionary *dic = [self.arrItemText objectAtIndex:[index integerValue]];
+    
+    //图片
+    NSString *str1 = [dic objectForKey:@"icon"];
+    //获取图片
+    NSData *data=[NSData dataWithContentsOfURL:[NSURL URLWithString:str1]];
+    UIImage *img = [UIImage imageWithData:data];
+    [self.arrItemImages replaceObjectAtIndex:[index integerValue] withObject:img];
+    
+    //位置坐标 前5个
+    NSDictionary *dicGeometry = [dic objectForKey:@"geometry"];
+    [self.arrGeometry addObject:dicGeometry];
+    NSLog(@"yes %d", [index integerValue]);
 }
 
 #pragma mark -
@@ -196,9 +222,13 @@
    
     self.arrItemText = [NSArray arrayWithArray:arr];
     
-    for (NSInteger i = 0; i < 5; i++) {
+    for (NSInteger i = 0; i < kLOAD_IMAGES_NUM_FIRST; i++) {
+        
+#ifdef USE_THREAD
+        [NSThread detachNewThreadSelector:@selector(loadImages:) toTarget:self withObject:[NSNumber numberWithInteger:i]];
+#else
         NSDictionary *dic = [self.arrItemText objectAtIndex:i];
-    
+        
         //图片
         NSString *str1 = [dic objectForKey:@"icon"];
         //获取图片
@@ -209,6 +239,9 @@
         //位置坐标 前5个
         NSDictionary *dicGeometry = [dic objectForKey:@"geometry"];
         [self.arrGeometry addObject:dicGeometry];
+        NSLog(@"no %d",i);
+#endif
+        
     }
     
     DetailViewController *dc = [[DetailViewController alloc] init];

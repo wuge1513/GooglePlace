@@ -22,9 +22,10 @@
 
 @property (strong, nonatomic) UIToolbar *tbarMap;
 @property (strong, nonatomic) UIView *mapView;
-@property (assign, nonatomic) BOOL isMapShowing;
 @property (strong, nonatomic) MKMapView *mkMapView;
 @property (strong, nonatomic) CLLocation *curLocation;
+@property (assign, nonatomic) BOOL isMapShowing;
+@property (assign, nonatomic) BOOL isShowSubPageView;
 
 
 @property (assign, nonatomic) double lat;

@@ -20,6 +20,7 @@
 @property (nonatomic,copy) NSMutableArray *muArray; 
 @property (nonatomic, retain) NSMutableArray *arrImage;
 
+@property (strong, nonatomic) UIToolbar *tbarMap;
 @property (strong, nonatomic) UIView *mapView;
 @property (assign, nonatomic) BOOL isMapShowing;
 @property (strong, nonatomic) MKMapView *mkMapView;
@@ -30,7 +31,9 @@
 @property (assign, nonatomic) double lng;
 @property (strong, nonatomic) NSMutableArray *arrGeometry;
 
-
+- (void)showSubPageView;
+- (void)actionUpdateLocation;
+- (void)actionSegmentCtl:(id)sender;
 - (void)actionBtnLoadMoreItem;
 - (void)actionShowItemOnMap;
 - (void)setCurrentLocation:(CLLocation *)location;

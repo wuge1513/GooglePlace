@@ -22,6 +22,8 @@
 #import "SBJson.h"
 #import "NSString+SBJSON.h"
 
+#import "MasterViewController.h"
+
 #define kCURRENT_ITEM_COUNT      5
 
 @implementation DetailViewController
@@ -31,6 +33,7 @@
 @synthesize tbPlaceList;
 @synthesize muArray, arrImage;
 @synthesize mapView, isMapShowing, mkMapView, lat, lng, arrGeometry, curLocation;
+@synthesize tbarMap;
 
 - (void)dealloc
 {
@@ -100,12 +103,29 @@
     self.mapView.hidden = YES;
     [self.view addSubview:self.mapView];
     
-//    MKMapView *_mkMapView = [[MKMapView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 416.0)];
-//    self.mkMapView = _mkMapView;
-//    [_mkMapView release];
-//    self.mkMapView.delegate = self;
-//    self.mkMapView.showsUserLocation = YES;
-//    [self.mapView addSubview:self.mkMapView];
+    //bottom tool bar
+    self.tbarMap = [[UIToolbar alloc] initWithFrame:CGRectMake(0.0, 376.0, 320.0, 40.0)];
+    self.tbarMap.barStyle = UIBarStyleDefault;
+    [self.mapView addSubview:self.tbarMap];
+    
+    //space
+    UIBarButtonItem *barItem0 = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace 
+                                                                                  target:nil 
+                                                                                  action:nil];
+    
+    UIBarButtonItem *barItemLocation = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Location.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(actionUpdateLocation)];
+    UIBarButtonItem *barItemSubPage = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPageCurl target:self action:@selector(showSubPageView)];
+    [self.tbarMap sizeToFit];
+    [self.tbarMap setItems:[NSArray arrayWithObjects:barItemLocation, barItem0, barItem0, barItem0, barItemSubPage, nil]];
+    
+    //convert map type
+    UISegmentedControl *segCtl = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:@"标准", @"卫星", @"混合", nil]];
+    segCtl.segmentedControlStyle = UISegmentedControlStyleBar;
+    segCtl.frame = CGRectMake(0.0, 0.0, 120.0, 30.0);
+    segCtl.center = CGPointMake(160.0, 23.0);
+    segCtl.selectedSegmentIndex = 0;
+    [segCtl addTarget:self action:@selector(actionSegmentCtl:) forControlEvents:UIControlEventValueChanged];
+    [self.tbarMap addSubview:segCtl];
     
 }
 
@@ -142,6 +162,8 @@
     return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
 }
 
+#pragma mark -
+#pragma mark List action methods
 
 - (void)actionBtnLoadMoreItem
 {
@@ -167,6 +189,45 @@
     [self.tbPlaceList scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:self.curItemCount - 1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
 }
 
+- (void)showItemDetailView
+{
+    NSLog(@"detail...");
+}
+
+
+#pragma mark -
+#pragma mark Map action methods
+- (void)showSubPageView
+{
+
+}
+
+- (void)actionUpdateLocation
+{
+
+}
+
+- (void)actionSegmentCtl:(id)sender
+{
+    UISegmentedControl *seg = (UISegmentedControl *)sender;
+    NSLog(@"===%d",seg.selectedSegmentIndex);
+    
+    switch (seg.selectedSegmentIndex) {
+        case 0:
+            self.mkMapView.mapType = MKMapTypeStandard;
+            break;
+        case 1:
+            self.mkMapView.mapType = MKMapTypeSatellite;
+            break;
+        case 2:
+            self.mkMapView.mapType = MKMapTypeHybrid;
+            break;
+        default:
+            break;
+    }
+}
+
+
 - (void)setCurrentLocation:(CLLocation *)location
 {
     MKCoordinateRegion region = {{0.0f, 0.0f}, {0.0f, 0.0f}};
@@ -179,7 +240,7 @@
 //地图标注
 - (void)showMap
 {
-    MKMapView *_mkMapView = [[MKMapView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 416.0)];
+    MKMapView *_mkMapView = [[MKMapView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 376.0)];
     self.mkMapView = _mkMapView;
     [_mkMapView release];
     self.mkMapView.delegate = self;
@@ -241,6 +302,8 @@
 }
 
 
+#pragma mark -
+#pragma mark UITableView Methods
 
 // Customize the number of sections in the table view.
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -306,11 +369,6 @@
 }
 
 
-- (void)showItemDetailView
-{
-    NSLog(@"detail...");
-}
-
 #pragma mark -
 #pragma mark MKMapViewDelegate
 
@@ -340,14 +398,6 @@
         draggablePinView.annotation = annotation;
         draggablePinView.selected = YES;
         
-        
-        if(annotation.title != @"Me") {    
-            UIButton* rightButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-            [rightButton addTarget:self action:@selector(showItemDetailView) forControlEvents:UIControlEventTouchUpInside];
-            draggablePinView.rightCalloutAccessoryView = rightButton;
-            //rightButton.tag = [self setID:annotation.title Type:1];
-        }
-        
         return draggablePinView;
 	}
     
@@ -355,6 +405,7 @@
    MKPinAnnotationView *newAnnotation = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"ass"];
     newAnnotation.animatesDrop = YES;
     newAnnotation.canShowCallout=YES;
+    newAnnotation.pinColor = MKPinAnnotationColorGreen;
     
     UIButton* rightButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
     [rightButton addTarget:self action:@selector(showItemDetailView) forControlEvents:UIControlEventTouchUpInside];

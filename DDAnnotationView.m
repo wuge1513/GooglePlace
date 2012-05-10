@@ -79,6 +79,8 @@
 		annotationView.canShowCallout = YES;
 		return [annotationView autorelease];
 	} 
+    
+    
 	
 	return [[[self alloc] initWithAnnotation_:annotation reuseIdentifier:reuseIdentifier mapView:mapView] autorelease];
 }
@@ -97,6 +99,8 @@
 		[self addSubview:self.pinShadow];
 		
 		self.mapView = mapView;
+        
+        self.frame = CGRectMake(0.0, 0.0, 200, 70);
 	}
 	
 	return self;

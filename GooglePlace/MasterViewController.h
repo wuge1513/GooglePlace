@@ -21,9 +21,9 @@
 @property (nonatomic,copy) NSString *strAccuracy;
 
 
-@property (nonatomic, retain) NSMutableData *receivedData;
-@property (nonatomic, retain) NSMutableArray *arrItemText;
-@property (nonatomic, retain) NSMutableArray *arrItemImages;
+@property (nonatomic, strong) NSMutableData *receivedData;
+@property (nonatomic, strong) NSMutableArray *arrItemText;
+@property (nonatomic, strong) NSMutableArray *arrItemImages;
 @property (strong, nonatomic) NSMutableArray *arrGeometry;
 
 @property (strong, nonatomic) IBOutlet UILabel *curAddress;

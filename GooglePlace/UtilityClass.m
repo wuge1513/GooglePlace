@@ -29,7 +29,6 @@ static const NSInteger LOCAL_RAND_MAX = 10;
     //[dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss.SSS"];//精确到毫秒
     //NSLog(@"Date%@", [dateFormatter stringFromDate:[NSDate date]]);
     _curTime = [dateFormatter stringFromDate:[NSDate date]];
-    [dateFormatter release];
 
     return _curTime;
 
@@ -108,7 +107,7 @@ static const NSInteger LOCAL_RAND_MAX = 10;
 }
 
 + (NSData*) hexStrToBytes:(NSString*)strHex {
-	NSMutableData* data = [[[NSMutableData alloc] init] autorelease];
+	NSMutableData* data = [[NSMutableData alloc] init];
 	int idx;
 	for (idx = 0; idx+2 <= strHex.length; idx+=2) {
 		NSRange range = NSMakeRange(idx, 2);
@@ -226,7 +225,7 @@ static const NSInteger LOCAL_RAND_MAX = 10;
 
 
 + (NSString*) DataToASCIIString:(NSData*)data{
-	return [[[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding] autorelease];
+	return [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
 }
 
 + (NSData*) ASCIIStringToData:(NSString*)str{
@@ -234,7 +233,7 @@ static const NSInteger LOCAL_RAND_MAX = 10;
 }
 
 + (NSString*) DataToUTF8String:(NSData*)data{
-	return [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease];
+	return [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 }
 
 + (NSData*) UTF8StringToData:(NSString*)str{
@@ -288,7 +287,7 @@ static const NSInteger LOCAL_RAND_MAX = 10;
  */
 + (NSInteger)getTimeInterval:(NSString *)strTime
 {
-    NSArray *arr = [[[NSArray alloc] init] autorelease];
+    NSArray *arr = [[NSArray alloc] init];
     arr = [strTime componentsSeparatedByString:@":"];
 
     return [self getTimeInterval:[arr objectAtIndex:0] strMin:[arr objectAtIndex:1]];
@@ -376,7 +375,6 @@ static const NSInteger LOCAL_RAND_MAX = 10;
         [[UIApplication sharedApplication] scheduleLocalNotification:notification];
         
     }
-    [notification release];
 }
 
 @end

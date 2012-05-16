@@ -29,7 +29,7 @@
 
 @interface DDAnnotationView : MKAnnotationView {	
 	@private
-	MKMapView *mapView_;
+	MKMapView *__weak mapView_;
 
 	BOOL isMoving_;
 	CGPoint startLocation_;

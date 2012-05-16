@@ -19,9 +19,6 @@
 	return self;
 }
 
--(void) dealloc{
-	[super dealloc];
-}
 
 
 #pragma mark- 沙盒文件管理
@@ -86,7 +83,7 @@
 	
     //NSData *data;
 	if ( [[NSFileManager defaultManager] fileExistsAtPath:tmpFilePath ]) {
-		return [[[NSData alloc] initWithContentsOfFile:tmpFilePath] autorelease];
+		return [[NSData alloc] initWithContentsOfFile:tmpFilePath];
 	}
     
 	return nil;

@@ -34,9 +34,9 @@
 @property (nonatomic, assign) CGPoint startLocation;
 @property (nonatomic, assign) CGPoint originalCenter;
 
-@property (nonatomic, retain) UIImageView *	pinShadow;
-@property (nonatomic, retain) NSTimer * pinTimer;
-@property (nonatomic, assign) MKMapView *mapView;
+@property (nonatomic, strong) UIImageView *	pinShadow;
+@property (nonatomic, strong) NSTimer * pinTimer;
+@property (nonatomic, weak) MKMapView *mapView;
 
 + (CAAnimation *)pinBounceAnimation_;
 + (CAAnimation *)pinFloatingAnimation_;
@@ -60,11 +60,8 @@
 
 - (void)dealloc {
 	
-	[pinShadow_ release];
 	[pinTimer_ invalidate];
-	[pinTimer_ release];
 	
-	[super dealloc];
 }
 
 // Thanks to Bret Cheng (@bretcheng)'s suggestion on avoiding memory leaks in -initWithAnnotation:reuseIdentifier: when returning MKPinAnnotationView instead
@@ -77,12 +74,12 @@
 		MKPinAnnotationView *annotationView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:reuseIdentifier];
 		[annotationView performSelector:NSSelectorFromString(@"setDraggable:") withObject:[NSNumber numberWithBool:YES]];
 		annotationView.canShowCallout = YES;
-		return [annotationView autorelease];
+		return annotationView;
 	} 
     
     
 	
-	return [[[self alloc] initWithAnnotation_:annotation reuseIdentifier:reuseIdentifier mapView:mapView] autorelease];
+	return [[self alloc] initWithAnnotation_:annotation reuseIdentifier:reuseIdentifier mapView:mapView];
 }
 
 - (id)initWithAnnotation_:(id <MKAnnotation>)annotation reuseIdentifier:(NSString *)reuseIdentifier mapView:(MKMapView *)mapView {
@@ -93,7 +90,7 @@
 		self.calloutOffset = CGPointMake(-8, 0);
 		self.canShowCallout = YES;
 		
-		self.pinShadow = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"PinShadow.png"]] autorelease];
+		self.pinShadow = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"PinShadow.png"]];
 		self.pinShadow.frame = CGRectMake(0, 0, 32, 39);
 		self.pinShadow.hidden = YES;
 		[self addSubview:self.pinShadow];

@@ -9,7 +9,7 @@
 #import "MasterViewController.h"
 #import "DetailViewController.h"
 
-#import "SBJson.h"
+#import "SBJson.h" 
 #import "NSString+SBJSON.h"
 
 #define USE_THREAD
@@ -31,11 +31,9 @@
         
         NSMutableArray *_arrItemText = [[NSMutableArray alloc] init];
         self.arrItemText = _arrItemText;
-        [_arrItemText release];
         
         NSMutableArray *_arrItemImages = [[NSMutableArray alloc] initWithCapacity:kLOAD_IMAGES_NUM_FIRST];
         self.arrItemImages = _arrItemImages;
-        [_arrItemImages release];
         
         for (NSInteger i = 0; i < kLOAD_IMAGES_NUM_FIRST; i++) {
             [self.arrItemImages addObject:[NSNull null]];
@@ -43,34 +41,14 @@
         
         NSMutableData *_data = [[NSMutableData alloc] init];
         self.receivedData = _data;
-        [_data release];
         
         NSMutableArray *_arrGeometry = [[NSMutableArray alloc] init];
         self.arrGeometry = _arrGeometry;
-        [_arrGeometry release];
         
     }
     return self;
 }
 							
-- (void)dealloc
-{
-    [arrGeometry release];
-    [receivedData release];
-    [arrItemText release];
-    [arrItemImages release];
-    
-    [tfType release];
-    [tfRadius release];
-    
-    [strAccuracy release];
-    [strLatitude release];
-    [strLongitude release];
-    [lm release];
-    
-    [_detailViewController release];
-    [super dealloc];
-}
 
 - (void)didReceiveMemoryWarning
 {
@@ -100,8 +78,7 @@
         self.lm.distanceFilter = 100.0f;
         //启动位置管理器
         [self.lm startUpdatingLocation];  
-    } 
-    [_lm release];
+    }
 }
 
 - (void)viewDidUnload
@@ -296,7 +273,6 @@
                           cancelButtonTitle: @"Done"  
                           otherButtonTitles:nil];  
     [alert show];       
-    [alert release];  
 }  
 
 

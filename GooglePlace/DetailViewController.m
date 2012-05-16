@@ -27,14 +27,6 @@
 @synthesize tbarMap;
 @synthesize isMapShowing, isShowSubPageView;
 
-- (void)dealloc
-{
-    [btnLoadMoreItem release];
-    [arrImage release];
-    [tbPlaceList release];
-    [muArray release];
-    [super dealloc];
-}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -47,7 +39,6 @@
         
         NSMutableArray *_arrGeometry = [[NSMutableArray alloc] init];
         self.arrGeometry = _arrGeometry;
-        [_arrGeometry release];
     }
     return self;
 }
@@ -91,7 +82,6 @@
     //custom background view
     UIView *_mapView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 416.0)];
     self.mapView = _mapView;
-    [_mapView release];
     self.mapView.backgroundColor = [UIColor scrollViewTexturedBackgroundColor];
     self.mapView.hidden = YES;
     [self.view addSubview:self.mapView];
@@ -257,7 +247,6 @@
 {
     MKMapView *_mkMapView = [[MKMapView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 372.0)];
     self.mkMapView = _mkMapView;
-    [_mkMapView release];
     self.mkMapView.delegate = self;
     self.mkMapView.showsUserLocation = YES;
     self.mkMapView.autoresizesSubviews = YES;
@@ -281,7 +270,7 @@
         
         
         
-        DDAnnotation *annotation = [[[DDAnnotation alloc] initWithCoordinate:theCoordinate addressDictionary:nil] autorelease];
+        DDAnnotation *annotation = [[DDAnnotation alloc] initWithCoordinate:theCoordinate addressDictionary:nil];
         annotation.title = name;//@"Drag to Move Pin";
         annotation.subtitle = address;//[NSString	stringWithFormat:@"%f %f", annotation.coordinate.latitude, annotation.coordinate.longitude];
         [self.mkMapView addAnnotation:annotation];
@@ -350,7 +339,7 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
    // if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         
    // }
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -374,7 +363,6 @@
             lbl.font = [UIFont systemFontOfSize:12.0];
             lbl.backgroundColor = [UIColor clearColor];
             [cell.contentView addSubview:lbl];
-            [lbl release];
         }
     }
     

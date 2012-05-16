@@ -18,7 +18,7 @@
 
 @property (strong, nonatomic) IBOutlet UITableView *tbPlaceList;
 @property (nonatomic,copy) NSMutableArray *muArray; 
-@property (nonatomic, retain) NSMutableArray *arrImage;
+@property (nonatomic, strong) NSMutableArray *arrImage;
 
 @property (strong, nonatomic) UIToolbar *tbarMap;
 @property (strong, nonatomic) UIView *mapView;

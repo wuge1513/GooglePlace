@@ -8,8 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
+#import "PlaceDetailViewController.h"
 
+
+@class PlaceDetailViewController;
 @interface DetailViewController : UIViewController<MKMapViewDelegate>
+
 
 
 @property (assign, nonatomic) NSInteger curItemCount;
@@ -31,6 +35,10 @@
 @property (assign, nonatomic) double lat;
 @property (assign, nonatomic) double lng;
 @property (strong, nonatomic) NSMutableArray *arrGeometry;
+@property (strong, nonatomic) NSMutableArray *arrReference;
+@property (strong, nonatomic) NSMutableData *receivedData;
+@property (strong, nonatomic) NSMutableDictionary *dicReferenceDetail;
+@property (strong, nonatomic) PlaceDetailViewController *placeDetailView;
 
 - (void)showSubPageView;
 - (void)actionUpdateLocation;
@@ -39,6 +47,7 @@
 - (void)actionShowItemOnMap;
 - (void)setCurrentLocation:(CLLocation *)location;
 
+- (void)getPlaceReference;//test
 
 - (void)showItemDetailView;
 @end

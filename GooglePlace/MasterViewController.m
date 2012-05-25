@@ -150,22 +150,6 @@
     
 }
 
-- (void)loadImages:(NSNumber *)index
-{
-    NSDictionary *dic = [self.arrItemText objectAtIndex:[index integerValue]];
-    
-    //图片
-    NSString *str1 = [dic objectForKey:@"icon"];
-    //获取图片
-    NSData *data=[NSData dataWithContentsOfURL:[NSURL URLWithString:str1]];
-    UIImage *img = [UIImage imageWithData:data];
-    [self.arrItemImages replaceObjectAtIndex:[index integerValue] withObject:img];
-    
-    //位置坐标 前5个
-    NSDictionary *dicGeometry = [dic objectForKey:@"geometry"];
-    [self.arrGeometry addObject:dicGeometry];
-    NSLog(@"yes %d", [index integerValue]);
-}
 
 #pragma mark -
 #pragma mark NSURLConnection
@@ -189,36 +173,24 @@
 
     
     NSString *str = [[NSString alloc] initWithData:self.receivedData encoding:NSUTF8StringEncoding];
-    NSLog(@"str = %@", str);
+    //NSLog(@"str = %@", str);
     
     NSMutableDictionary *jsonDic = [str JSONValue];
-    NSLog(@"123 = %@", jsonDic);
+    //NSLog(@"123 = %@", jsonDic);
     
     NSArray *arr = [jsonDic objectForKey:@"results"];
-    NSLog(@"456 = %@", arr);
+   // NSLog(@"456 = %@", arr);
    
     self.arrItemText = [NSArray arrayWithArray:arr];
     
     for (NSInteger i = 0; i < kLOAD_IMAGES_NUM_FIRST; i++) {
         
-#ifdef USE_THREAD
-        [NSThread detachNewThreadSelector:@selector(loadImages:) toTarget:self withObject:[NSNumber numberWithInteger:i]];
-#else
         NSDictionary *dic = [self.arrItemText objectAtIndex:i];
-        
-        //图片
-        NSString *str1 = [dic objectForKey:@"icon"];
-        //获取图片
-        NSData *data=[NSData dataWithContentsOfURL:[NSURL URLWithString:str1]];
-        UIImage *img = [UIImage imageWithData:data];
-        [self.arrItemImages addObject:img];
         
         //位置坐标 前5个
         NSDictionary *dicGeometry = [dic objectForKey:@"geometry"];
         [self.arrGeometry addObject:dicGeometry];
         NSLog(@"no %d",i);
-#endif
-        
     }
     
     DetailViewController *dc = [[DetailViewController alloc] init];

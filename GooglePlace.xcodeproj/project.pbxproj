@@ -33,6 +33,7 @@
 		A9AA76521557A9A1004B1009 /* PinShadow.png in Resources */ = {isa = PBXBuildFile; fileRef = A9AA764A1557A9A1004B1009 /* PinShadow.png */; };
 		A9AA76541557AB07004B1009 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9AA76531557AB07004B1009 /* QuartzCore.framework */; };
 		A9AA76561557AB49004B1009 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9AA76551557AB49004B1009 /* MapKit.framework */; };
+		A9EFDB63156A24F800237BF7 /* PlaceDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9EFDB62156A24F800237BF7 /* PlaceDetailViewController.m */; };
 		A9F741BD1521D13900AC6D28 /* UtilityClass.m in Sources */ = {isa = PBXBuildFile; fileRef = A9F741BC1521D13900AC6D28 /* UtilityClass.m */; };
 		A9F741C91521D25C00AC6D28 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9F741C81521D25C00AC6D28 /* CFNetwork.framework */; };
 		A9F741CF1521D27A00AC6D28 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9F741CE1521D27A00AC6D28 /* MobileCoreServices.framework */; };
@@ -90,6 +91,8 @@
 		A9AA764A1557A9A1004B1009 /* PinShadow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PinShadow.png; sourceTree = "<group>"; };
 		A9AA76531557AB07004B1009 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		A9AA76551557AB49004B1009 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		A9EFDB61156A24F800237BF7 /* PlaceDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaceDetailViewController.h; sourceTree = "<group>"; };
+		A9EFDB62156A24F800237BF7 /* PlaceDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaceDetailViewController.m; sourceTree = "<group>"; };
 		A9F741BB1521D13900AC6D28 /* UtilityClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UtilityClass.h; sourceTree = "<group>"; };
 		A9F741BC1521D13900AC6D28 /* UtilityClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UtilityClass.m; sourceTree = "<group>"; };
 		A9F741C81521D25C00AC6D28 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -188,6 +191,8 @@
 				A90AB7EE1521C39600F31F2C /* MasterViewController.m */,
 				A90AB7F01521C39600F31F2C /* DetailViewController.h */,
 				A90AB7F11521C39600F31F2C /* DetailViewController.m */,
+				A9EFDB61156A24F800237BF7 /* PlaceDetailViewController.h */,
+				A9EFDB62156A24F800237BF7 /* PlaceDetailViewController.m */,
 				A90AB7F31521C39600F31F2C /* MasterViewController.xib */,
 				A90AB7F61521C39600F31F2C /* DetailViewController.xib */,
 				A90AB7E21521C39600F31F2C /* Supporting Files */,
@@ -345,6 +350,7 @@
 				A90F3F9D1553B50F009954C8 /* SBJsonWriter.m in Sources */,
 				A9AA764B1557A9A1004B1009 /* DDAnnotation.m in Sources */,
 				A9AA764C1557A9A1004B1009 /* DDAnnotationView.m in Sources */,
+				A9EFDB63156A24F800237BF7 /* PlaceDetailViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

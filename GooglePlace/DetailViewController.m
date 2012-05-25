@@ -27,6 +27,11 @@
 @synthesize tbarMap;
 @synthesize isMapShowing, isShowSubPageView;
 
+//add
+@synthesize arrReference, receivedData, dicReferenceDetail;
+@synthesize placeDetailView = _placeDetailView;
+
+
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -39,6 +44,15 @@
         
         NSMutableArray *_arrGeometry = [[NSMutableArray alloc] init];
         self.arrGeometry = _arrGeometry;
+        
+        NSMutableArray *_arrReference = [[NSMutableArray alloc] init];
+        self.arrReference = _arrReference;
+        
+        NSMutableData *_receivedData = [[NSMutableData alloc] init];
+        self.receivedData = _receivedData;
+        
+        NSMutableDictionary *_dicReferenceDetail = [[NSMutableDictionary alloc] init];
+        self.dicReferenceDetail = _dicReferenceDetail;
     }
     return self;
 }
@@ -62,16 +76,14 @@
 	self.totalItemCount = [self.muArray count];
     NSLog(@"ddd = %d", self.totalItemCount);
     
-    //初始图片
-    for (NSInteger i = 0; i < kCURRENT_ITEM_COUNT; i++) {
+    
+    for (NSInteger i = 0; i < 5; i++) {
         NSDictionary *dic = [self.muArray objectAtIndex:i];
-        NSString *str1 = [dic objectForKey:@"icon"];
-        //获取图片
-        NSData *data=[NSData dataWithContentsOfURL:[NSURL URLWithString:str1]];
-        UIImage *img = [UIImage imageWithData:data];
-        [self.arrImage addObject:img];
+        NSString *reference = [dic objectForKey:@"reference"];
+        [self.arrReference addObject:reference];
     }
-
+    NSLog(@"reference = %@", self.arrReference);
+    [self getPlaceReference];
     
     //add load more btn in last cell
     self.btnLoadMoreItem = [UIButton buttonWithType:UIButtonTypeRoundedRect];
@@ -357,7 +369,7 @@
             NSString *str2 = [dic objectForKey:@"name"];
             NSString *str3 = [dic objectForKey:@"vicinity"];
             
-            cell.imageView.image = [self.arrImage objectAtIndex:indexPath.row];
+            //cell.imageView.image = [self.arrImage objectAtIndex:indexPath.row];
             cell.textLabel.text = str2;
             
             UILabel *lbl = [[UILabel alloc] initWithFrame:CGRectMake(90.0, 55.0, 300, 20)];
@@ -373,6 +385,66 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    PlaceDetailViewController *pdc = [[PlaceDetailViewController alloc] init];
+    pdc.dicPlaceDetail = self.dicReferenceDetail;
+    [self.navigationController pushViewController:pdc animated:YES];
+}
+
+#pragma mark - 
+#pragma mark Get place Reference
+
+- (void)getPlaceReference
+{
+
+
+    NSString *strReference = [self.arrReference objectAtIndex:2];
+    NSString *strSensor = @"true";
+    NSString *strKey = API_KEY;
+    
+    
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+    
+    NSString *strURL = [NSString stringWithFormat:@"%@reference=%@&sensor=%@&key=%@", PLACEAPI_DETAILURL_JSON, strReference, strSensor, strKey];
+    NSURL *url = [NSURL URLWithString:strURL];
+    
+    NSLog(@"url = %@", url);
+	NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:url];
+	[req setHTTPMethod:@"GET"];
+	[NSURLConnection connectionWithRequest:req delegate:self];
+}
+
+#pragma mark -
+#pragma mark NSURLConnection
+
+- (void) connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response{
+	[self.receivedData setLength:0];
+}
+
+- (void) connection:(NSURLConnection *)connection didFailWithError:(NSError *)error{
+	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+}
+
+- (void) connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
+{
+	[self.receivedData appendData:data];
+}
+
+- (void) connectionDidFinishLoading:(NSURLConnection *)connection{
+    
+	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+    
+    
+    NSString *str = [[NSString alloc] initWithData:self.receivedData encoding:NSUTF8StringEncoding];
+    //NSLog(@"str = %@", str);
+    
+    NSMutableDictionary *jsonDic = [str JSONValue];
+   // NSLog(@"123 = %@", jsonDic);
+    
+    self.dicReferenceDetail = [jsonDic objectForKey:@"result"];
+    
+
+    
+    NSLog(@"666 = %@", self.dicReferenceDetail);
 
 }
 

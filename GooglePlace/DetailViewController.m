@@ -283,6 +283,7 @@
         [UIView beginAnimations:@"Animation" context:nil];
         [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
         [UIView setAnimationDelay:0.5];
+        [UIView setAnimationDuration:0.5];
         [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromRight forView:self.view cache:NO];
         self.mapView.hidden = NO;
         [UIView commitAnimations];
@@ -295,6 +296,7 @@
         [UIView beginAnimations:@"Animation" context:nil];
         [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
         [UIView setAnimationDelay:0.5];
+        [UIView setAnimationDuration:0.5];
         [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:self.view cache:NO];
         self.mapView.hidden = YES;
         [UIView commitAnimations];

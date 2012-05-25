@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A90839B5155A1EB000620ABB /* Location.png in Resources */ = {isa = PBXBuildFile; fileRef = A90839B1155A1EB000620ABB /* Location.png */; };
-		A90839B6155A1EB000620ABB /* Location@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A90839B2155A1EB000620ABB /* Location@2x.png */; };
 		A90AB7DC1521C39600F31F2C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A90AB7DB1521C39600F31F2C /* UIKit.framework */; };
 		A90AB7DE1521C39600F31F2C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A90AB7DD1521C39600F31F2C /* Foundation.framework */; };
 		A90AB7E61521C39600F31F2C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A90AB7E41521C39600F31F2C /* InfoPlist.strings */; };
@@ -45,11 +43,11 @@
 		A9F741DE1521ECDD00AC6D28 /* LLFileManage.m in Sources */ = {isa = PBXBuildFile; fileRef = A9F741DD1521ECDD00AC6D28 /* LLFileManage.m */; };
 		A9F742081521F38500AC6D28 /* NSObject+SBJson.m in Sources */ = {isa = PBXBuildFile; fileRef = A9F741F01521F38500AC6D28 /* NSObject+SBJson.m */; };
 		CE144DE0155ACBE900D40A41 /* 0.jpg in Resources */ = {isa = PBXBuildFile; fileRef = CE144DDF155ACBE900D40A41 /* 0.jpg */; };
+		CE8395291568964300E758B0 /* Location.png in Resources */ = {isa = PBXBuildFile; fileRef = CE8395271568964300E758B0 /* Location.png */; };
+		CE83952A1568964300E758B0 /* Location@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CE8395281568964300E758B0 /* Location@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		A90839B1155A1EB000620ABB /* Location.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Location.png; sourceTree = "<group>"; };
-		A90839B2155A1EB000620ABB /* Location@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Location@2x.png"; sourceTree = "<group>"; };
 		A90AB7D71521C39600F31F2C /* GooglePlace.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GooglePlace.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A90AB7DB1521C39600F31F2C /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		A90AB7DD1521C39600F31F2C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -104,6 +102,8 @@
 		A9F741EF1521F38500AC6D28 /* NSObject+SBJson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+SBJson.h"; path = "SBJson/NSObject+SBJson.h"; sourceTree = "<group>"; };
 		A9F741F01521F38500AC6D28 /* NSObject+SBJson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+SBJson.m"; path = "SBJson/NSObject+SBJson.m"; sourceTree = "<group>"; };
 		CE144DDF155ACBE900D40A41 /* 0.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 0.jpg; sourceTree = "<group>"; };
+		CE8395271568964300E758B0 /* Location.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Location.png; sourceTree = "<group>"; };
+		CE8395281568964300E758B0 /* Location@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Location@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,8 +132,8 @@
 			isa = PBXGroup;
 			children = (
 				CE144DDF155ACBE900D40A41 /* 0.jpg */,
-				A90839B1155A1EB000620ABB /* Location.png */,
-				A90839B2155A1EB000620ABB /* Location@2x.png */,
+				CE8395271568964300E758B0 /* Location.png */,
+				CE8395281568964300E758B0 /* Location@2x.png */,
 			);
 			name = Resource;
 			sourceTree = "<group>";
@@ -318,9 +318,9 @@
 				A9AA76501557A9A1004B1009 /* PinDown3.png in Resources */,
 				A9AA76511557A9A1004B1009 /* PinFloating.png in Resources */,
 				A9AA76521557A9A1004B1009 /* PinShadow.png in Resources */,
-				A90839B5155A1EB000620ABB /* Location.png in Resources */,
-				A90839B6155A1EB000620ABB /* Location@2x.png in Resources */,
 				CE144DE0155ACBE900D40A41 /* 0.jpg in Resources */,
+				CE8395291568964300E758B0 /* Location.png in Resources */,
+				CE83952A1568964300E758B0 /* Location@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
